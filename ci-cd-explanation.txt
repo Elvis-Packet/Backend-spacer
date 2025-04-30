@@ -1,0 +1,35 @@
+The CI/CD pipeline we implemented automates the process of checking, testing, and deploying our backend code to ensure quality and efficiency. Here's an explanation you can share with your group members:
+
+What is CI/CD?
+CI (Continuous Integration) is the practice of automatically integrating code changes from multiple contributors into a shared repository several times a day. It involves automatically building and testing the code to catch issues early.
+CD (Continuous Deployment/Delivery) automates the release of validated code to production or staging environments, ensuring that new features and fixes reach users quickly and reliably.
+How Our CI/CD Pipeline Works
+Our CI/CD pipeline is defined in the .github/workflows/ci-cd.yml file. This file tells GitHub Actions what to do when code is pushed or a pull request is made to the main branch.
+
+The pipeline has three main jobs:
+
+1. Linting
+
+Checks the code style and quality using flake8.
+Ensures our Python code follows best practices and is free of common errors.
+Testing
+
+Sets up a PostgreSQL database service for testing.
+Installs dependencies and runs database migrations.
+Runs automated tests using pytest with coverage reporting.
+Uploads coverage reports to Codecov for visibility.
+
+
+2 .Deployment
+
+After linting and testing pass, the code is deployed to Render (our hosting platform).
+Uses the Render CLI to deploy the backend service securely using API keys stored as GitHub secrets.
+Key Features in the .yml File
+Triggers: The workflow runs on every push or pull request to the main branch.
+Caching: Python package dependencies are cached to speed up workflow runs.
+Virtual Environment: A Python virtual environment is created to isolate dependencies.
+Database Service: A PostgreSQL service runs during tests to simulate the production environment.
+Test Coverage: Tests generate coverage reports to ensure code quality.
+Secure Deployment: Deployment credentials are stored securely as GitHub secrets and used during deployment.
+This automation helps us maintain high code quality, catch bugs early, and deploy updates quickly without manual intervention.
+

@@ -1,0 +1,7 @@
+services:
+  spacer-frontend:
+    type: web
+    build_command: npm install && npm run build
+    start_command: npm start
+    env_vars:
+      REACT_APP_API_URL: https://spacer-backend.onrender.com

@@ -1,0 +1,17 @@
+Clone the repository:
+    cd spacer-platform/backend
+
+Create and activate virtual environment:
+    python -m venv venv
+    source venv/bin/activate  # Linux/Mac
+    
+Install dependencies:
+    pip install -r requirements.txt
+
+# CI/CD Setup for Backend
+1. Create a `render.yaml` file
+
+postgresql://spacer_db_user:KywJd2zSbWC6WLQzpkEePgjlDPXJY9u4@dpg-d05kqdali9vc738tenpg-a.oregon-postgres.render.com/spacer_db
+
+
+Apikey = rnd_7W5JgitV7UuGkLwOdOb73KuX3Bam

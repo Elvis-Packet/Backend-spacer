@@ -1,0 +1,10 @@
+services:
+  spacer-backend:
+    type: web
+    env: python
+    build_command: pip install -r requirements.txt
+    # 修改: Update start_command to include the correct working directory and Python path
+    start_command: cd /opt/render/project/src && python run.py
+    env_vars:
+      DATABASE_URL: postgresql://spacer_db_user:KywJd2zSbWC6WLQzpkEePgjlDPXJY9u4@dpg-d05kqdali9vc738tenpg-a.oregon-postgres.render.com/spacer_db
+      APIKEY: rnd_7W5JgitV7UuGkLwOdOb73KuX3Bam

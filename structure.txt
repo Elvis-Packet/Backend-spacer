@@ -1,0 +1,195 @@
+### Spacer Platform Project Documentation
+
+1. Backend Implementation (Flask & SQLAlchemy)
+
+Framework & Tools:
+
+        Flask for backend API development
+
+        SQLAlchemy as ORM for database operations
+
+        PostgreSQL for relational database
+
+        Flask-Migrate for database migrations
+
+Database Schema:
+
+        Models (4 Minimum):
+
+        User: Stores user credentials, roles (admin/client/owner).
+
+        Space: Contains space details (title, price, owner).
+
+        Booking: Manages reservations (user_id, space_id, timing).
+
+       #####Feature: Lists amenities (WiFi, projectors) with a many-to-many relationship to Space.
+
+Relationships:
+
+1. Many-to-Many: Space ↔ Feature
+
+        A space (e.g., "Co-Working Lounge") can have multiple features (amenities like WiFi, Projector, Catering).
+
+        A feature can belong to multiple spaces.
+
+        Implementation:
+
+        Columns: space_id (Foreign Key → Space), feature_id (Foreign Key → Feature).
+
+        In Models:
+
+        Space.features: Relationship to Feature via secondary=space_features.
+
+        Feature.spaces: Back-reference to all spaces with that feature.
+
+        Example:
+
+        Space A (Conference Room) ↔ Features: [Projector, WiFi]
+
+        Space B (Café) ↔ Features: [WiFi, Catering]
+
+2. One-to-Many: User → Space
+
+        A user (with role "owner") can list multiple spaces.
+
+        Each space belongs to one owner.
+
+        Implementation:
+
+        Foreign Key: Space.owner_id references User.id.
+
+        Relationship:
+
+        User.spaces: All spaces owned by a user (backref from Space).
+
+        Example:
+
+        User X (Owner) → [Space A, Space B]
+
+3. One-to-Many: User → Booking
+
+        A user (client) can make multiple bookings.
+
+        Each booking is tied to one user.
+
+    Implementation:
+
+        Foreign Key: Booking.user_id references User.id.
+
+        Relationship:
+
+        User.bookings: All reservations made by a user.
+
+        Example:
+
+        User Y (Client) → [Booking 1 (Space A), Booking 2 (Space C)]
+
+4. One-to-Many: Space → Booking
+        A space can have multiple bookings (time slots).
+
+        Each booking references one space.
+
+    Implementation:
+
+        Foreign Key: Booking.space_id references Space.id.
+
+        Relationship:
+
+        Space.bookings: All reservations for that space.
+
+        Example:
+
+        Space A → [Booking 1 (User Y), Booking 2 (User Z)]
+
+
+
+2. Frontend Implementation (React & Redux)
+Core Technologies:
+
+        React for UI components
+
+        Redux Toolkit for state management
+
+        React Router for client-side routing (5+ routes)
+
+        Axios for API calls
+
+Client-Side Routes:
+
+        Home (/): List featured spaces.
+
+        Spaces (/spaces): Browse all spaces with filters.
+
+        Space Details (/spaces/:id): View details + booking form.
+
+        Bookings (/bookings): User’s reservation history.
+
+        Admin (/admin): Dashboard for space/user management.
+
+
+
+3. CRUD Operations (RESTful Conventions)
+        Full CRUD on Space Model:
+
+        Create: POST /api/spaces (Admin/Owner).
+
+        Read: GET /api/spaces (Public) & GET /api/spaces/:id (Detailed view).
+
+        Update: PUT /api/spaces/:id (Owner/Admin).
+
+        Delete: DELETE /api/spaces/:id (Admin).
+
+4. Validation & Error Handling
+Backend Validations:
+
+        Space: Title length, positive pricing.
+
+        Booking: Valid timings, non-conflicting slots.
+
+        User: Email format, password strength.
+
+        Error Responses:
+
+        Standardized JSON errors (400, 401, 404, 500).
+
+        Frontend displays user-friendly messages.
+
+5. New Feature (Beyond Curriculum)
+        Simulated Payment Processing:
+
+        Mock payment flow with Stripe-like UI.
+
+        PDF invoice generation for bookings.
+
+        "Agreement Incubator" for digital contracts.
+
+6. State Management (Redux)
+Slices:
+
+        authSlice: Manages login state/JWT tokens.
+
+        spaceSlice: Handles space data/filters.
+
+        bookingSlice: Tracks reservations/payment status.
+
+7. Project Setup
+Backend:
+
+        Install dependencies: Flask, SQLAlchemy, psycopg2.
+
+        Configure PostgreSQL database URL in .env.
+
+        Run migrations: flask db init && flask db migrate && flask db upgrade.
+
+Frontend:
+
+        Install: react-router-dom, @reduxjs/toolkit, axios.
+
+Start dev server: npm start.
+
+8. Testing & Validation
+        Backend: Pytest for API endpoints/model validations.
+
+        Frontend: Jest + React Testing Library for components.
+
+
