@@ -4,7 +4,10 @@ from datetime import timedelta
 class Config:
     # Flask settings
     SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key')
-    SQLALCHEMY_DATABASE_URI = 'postgresql:///spacer_db'
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL',
+        'postgresql://elvis:Kxh3wLTCvFGHPqezwZprW5nUjFSOOPcm@dpg-d0csh0adbo4c73fpvptg-a/spacer_api'
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # JWT settings
@@ -39,4 +42,4 @@ class ProductionConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'postgresql:///spacer_test_db'
-    WTF_CSRF_ENABLED = False 
+    WTF_CSRF_ENABLED = False
