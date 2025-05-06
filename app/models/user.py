@@ -14,7 +14,7 @@ class User(BaseModel):
     __tablename__ = 'users'
 
     email = Column(String(120), unique=True, nullable=False)
-    password_hash = Column(String(128), nullable=False)
+    password_hash = Column(String(512), nullable=False)
     first_name = Column(String(50), nullable=False)
     last_name = Column(String(50), nullable=False)
     role = Column(Enum(UserRole), nullable=False)

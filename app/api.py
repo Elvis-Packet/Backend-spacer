@@ -5,7 +5,8 @@ from app.api_namespaces.bookings import bookings_ns
 from app.api_namespaces.testimonials import testimonials_ns
 from app.api_namespaces.admin import admin_ns
 from flask_restx import Api, Resource
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.models import UserRole, User  # Import UserRole and User from the appropriate module
 
 api_bp = Blueprint('api', __name__)
 

@@ -78,6 +78,10 @@ class SpaceList(Resource):
                 data['status'] = SpaceStatus(data['status'])
             except ValueError:
                 return {'message': 'Invalid space status'}, 400
+        import json
+        # Serialize images list to JSON string if present
+        if 'images' in data and isinstance(data['images'], list):
+            data['images'] = json.dumps(data['images'])
         space = Space(owner_id=current_user_id, **data)
         space.save()
         return {'message': 'Space created successfully'}, 201
@@ -86,7 +90,8 @@ class SpaceList(Resource):
 class SpaceDetail(Resource):
     def get(self, space_id):
         """Get space details"""
-        return Space.query.get_or_404(space_id)
+        space = Space.query.get_or_404(space_id)
+        return space.to_dict()
 
     @jwt_required()
     @spaces_ns.expect(space_model)
@@ -97,16 +102,22 @@ class SpaceDetail(Resource):
         if space.owner_id != current_user_id:
             return {'message': 'Unauthorized'}, 403
         data = request.get_json()
+        import logging
         if 'type' in data:
             try:
-                data['type'] = SpaceType(data['type'])
-            except ValueError:
+                data['type'] = SpaceType(data['type'].lower())
+            except ValueError as e:
+                logging.error(f"Invalid space type value: {data['type']}, error: {e}")
                 return {'message': 'Invalid space type'}, 400
         if 'status' in data:
             try:
-                data['status'] = SpaceStatus(data['status'])
+                data['status'] = SpaceStatus(data['status'].lower())
             except ValueError:
                 return {'message': 'Invalid space status'}, 400
+        import json
+        # Serialize images list to JSON string if present before setting attributes
+        if 'images' in data and isinstance(data['images'], list):
+            data['images'] = json.dumps(data['images'])
         for key, value in data.items():
             setattr(space, key, value)
         space.save()
